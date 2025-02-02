@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="PRG_Alt" Id="{c9677053-391b-466b-b0c6-a03af7227cd2}" SpecialFunc="None">
+    <Declaration><![CDATA[PROGRAM PRG_Alt
+VAR
+	test : REAL;
+	PT : REAL := 50.5;
+	TT : REAL := 11.5;
+	SV : BOOL;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+  </POU>
+</TcPlcObject>

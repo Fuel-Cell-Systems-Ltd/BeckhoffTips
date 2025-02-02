@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="FB_SelectOperatorExample" Id="{bca8ed81-aed1-4623-b87d-47a9bba08087}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_SelectOperatorExample
+
+VAR
+	test1, result1, result2, lowerLimit, upperLimit : DINT;
+	test2 : BOOL;
+END_VAR
+
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[result1 := LIMIT(lowerLimit, test1 ,upperLimit);
+
+result2 := SEL(test2, 1, 2);]]></ST>
+    </Implementation>
+  </POU>
+</TcPlcObject>

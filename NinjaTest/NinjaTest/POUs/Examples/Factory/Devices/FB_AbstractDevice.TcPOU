@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="FB_AbstractDevice" Id="{4e4396b5-d1e6-4aba-b839-c73d5780e046}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK ABSTRACT FB_AbstractDevice IMPLEMENTS I_Device
+
+VAR
+	_name : STRING;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Property Name="name" Id="{76877351-33b9-484e-a926-f6dbe89aa53f}">
+      <Declaration><![CDATA[PROPERTY name : STRING]]></Declaration>
+      <Get Name="Get" Id="{a4e1970a-7137-479b-80e2-527455a01b95}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[name : _name;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{594844e5-4337-45d2-a5ed-fd2ce7ee4a0f}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[_name := name;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+  </POU>
+</TcPlcObject>

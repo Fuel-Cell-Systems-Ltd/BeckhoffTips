@@ -1,0 +1,138 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="FB_ForWhileRepeatExample" Id="{ce7c217b-ba2f-4a38-9379-376472b04b00}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_ForWhileRepeatExample 
+
+VAR
+	test : INT := 2;
+	result1, result2, result3 : DINT;
+	healthy2, healthy3 : BOOL;
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[// For
+M_For(sum => result1);
+
+M_ForAdvanced();
+
+// While
+healthy2 := M_While(condition := test, count => result2);
+
+// Repeat
+healthy3 := M_Repeat(condition := test, count => result3);]]></ST>
+    </Implementation>
+    <Method Name="M_For" Id="{bb199d32-23f0-47b2-879f-1562515e37c3}">
+      <Declaration><![CDATA[METHOD M_For : BOOL
+
+VAR
+	test : ARRAY[1..10] OF INT :=  [10(2)];
+	i : INT;
+END_VAR
+
+VAR_OUTPUT
+	sum : DINT;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[FOR i := 1 TO 10 BY 1 DO
+	sum := sum + test[i];
+END_FOR
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_ForAdvanced" Id="{26ff7126-5b9d-451d-81af-5ccd737c7ffd}">
+      <Declaration><![CDATA[METHOD M_ForAdvanced : BOOL
+
+VAR
+	i : INT;
+	sum : DINT;
+	
+	test : REFERENCE TO INT REF= 0;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[FOR i := 1 TO 10 DO
+	IF i > 5 THEN
+		test REF= i;	
+	END_IF
+
+// Will crash as we try to use a invalid REFERENCE	
+//	IF NOT (__ISVALIDREF(test) AND test  > 7 ) THEN		
+//		CONTINUE;
+//	END_IF
+
+// Will not crash as we test the reference before we use it
+	IF NOT (__ISVALIDREF(test) AND_THEN test  > 7 ) THEN		
+		CONTINUE;
+	END_IF
+
+	sum := sum + 1;	
+END_FOR]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Repeat" Id="{de835af7-54e7-463f-94ad-def158099c74}">
+      <Declaration><![CDATA[METHOD M_Repeat : BOOL
+VAR_INPUT
+	condition : INT;
+END_VAR
+
+VAR_OUTPUT
+	count : DINT;
+END_VAR
+
+VAR
+	test : ARRAY[1..10] OF INT := [1,2,3,4,5,6,7,8,9,10];
+	i : INT := 1;;
+END_VAR
+
+// Similar to the while loop but will always do one cycle as it tests the condition til the end]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[M_Repeat := FALSE;
+RETURN ( condition < 1 OR condition > 10 );
+
+REPEAT
+	count := count + test[i];
+	IF i > 10 THEN
+		EXIT;
+	END_IF
+	i:= i + 1;
+UNTIL
+	test[i] = condition
+END_REPEAT
+
+M_Repeat := TRUE;
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_While" Id="{df71118c-90dd-4ed2-93de-ec7416b3f6b2}">
+      <Declaration><![CDATA[METHOD M_While : BOOL
+
+VAR_INPUT
+	condition : INT;
+END_VAR
+
+VAR_OUTPUT
+	count : DINT;
+END_VAR
+
+VAR
+	test : ARRAY[1..10] OF INT := [1,2,3,4,5,6,7,8,9,10];
+	i : INT := 1;;
+END_VAR
+
+// Use while with caudition as it can lead to infinite loop]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[M_While :=FALSE;
+RETURN ( condition < 1 OR condition > 10 );
+
+WHILE ( test[i] <> condition ) DO
+	count := count + test[i];
+	IF i > 10 THEN
+		EXIT;
+	END_IF
+	i:= i + 1;
+END_WHILE
+
+M_While := TRUE;]]></ST>
+      </Implementation>
+    </Method>
+  </POU>
+</TcPlcObject>

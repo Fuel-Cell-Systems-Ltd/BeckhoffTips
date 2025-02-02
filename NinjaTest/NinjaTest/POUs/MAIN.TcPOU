@@ -1,0 +1,61 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="MAIN" Id="{60fcd3b5-78b0-4460-85c0-cf4aff8b7fc6}" SpecialFunc="None">
+    <Declaration><![CDATA[PROGRAM MAIN
+
+VAR
+	// Examples
+	totype : FB_ToTypeExample;
+	defaultInput : FB_DefaultInputExample;
+	subRangeExample : FB_SubRangeExample;
+	selectOperator : FB_SelectOperatorExample;
+	arraryExample : FB_ArrayExample;
+	enumAndCaseExample : FB_EnumAndCaseExample;
+	jumpAndReturnExample : FB_JumpAndReturnExample;
+	forWhilERepeatExample : FB_ForWhileRepeatExample;
+	oneShotExample : FB_OneShotExample;
+	functionBlockExample : FB_FunctionBlockExample;
+	dynamicMemory : FB_DynamicMemoryExample;
+	factoryExample : FB_FactoryExample;
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[// TO_(Type)
+totype();
+
+// As of 4026 do not need to specify inputs with default values
+defaultInput();
+
+// Subrange datatype, can see been usful for range
+subRangeExample();
+
+// LIMIT and SEL
+selectOperator();
+
+// Array with variable length
+arraryExample();
+
+// Enum and Case Statement
+enumAndCaseExample();
+
+// Jump & Return
+jumpAndReturnExample();
+
+// For, While and Repeat
+forWhilERepeatExample();
+
+// Example of how to do a one shot
+oneShotExample();
+
+// Function Block
+functionBlockExample();
+
+// Reference during FB_Ini and dynamic creation of FB, moved to FB so we can use FB_Exit to delete the mmemory
+dynamicMemory();
+
+// Factory
+factoryExample();
+
+// factoryExample.PT01.name // example of a PT call]]></ST>
+    </Implementation>
+  </POU>
+</TcPlcObject>

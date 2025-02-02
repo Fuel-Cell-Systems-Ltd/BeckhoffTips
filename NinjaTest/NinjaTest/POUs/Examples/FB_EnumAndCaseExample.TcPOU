@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="FB_EnumAndCaseExample" Id="{533af9ed-92c0-4db8-9f88-270bc3452068}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_EnumAndCaseExample
+
+VAR
+	//Enum and case
+	test1 : E_Example;
+	result1a : STRING;
+	result1b : STRING;
+	
+	test2 : INT;
+	result2 : STRING;
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[// Enum and case
+CASE test1 OF
+	E_Example.blue :
+		result1a := 'Blue';
+	E_Example.green :
+		result1a := 'Green';
+	E_Example.red :
+		result1a := 'Red';
+	ELSE
+		result1a := '';
+END_CASE
+result1b := TO_STRING(test1);
+
+CASE test2 OF
+	1       : result2 := '1';
+	2,3,4,5 : result2 := 'Between 2 and 5';
+	6..20   : result2 := 'Between 6 and 20';
+ELSE     
+	result2 := 'Greater than 20';
+END_CASE]]></ST>
+    </Implementation>
+  </POU>
+</TcPlcObject>

@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="FB_OneShotExample" Id="{ecd4cb75-baed-475e-950b-0e9effe618c7}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_OneShotExample
+VAR
+	execute : BOOL;
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[M_OneShot(execute);]]></ST>
+    </Implementation>
+    <Method Name="M_OneShot" Id="{754dceb4-eb65-49ed-95da-4c10edb29040}">
+      <Declaration><![CDATA[METHOD M_OneShot
+
+VAR_INPUT
+	_execute : BOOL;
+END_VAR
+
+VAR_INST
+	execTrig : R_Trig;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[execTrig(CLK := _execute);
+RETURN (NOT execTrig.Q);
+
+// Do code here, will only be called for each time _execute does from low to high]]></ST>
+      </Implementation>
+    </Method>
+  </POU>
+</TcPlcObject>

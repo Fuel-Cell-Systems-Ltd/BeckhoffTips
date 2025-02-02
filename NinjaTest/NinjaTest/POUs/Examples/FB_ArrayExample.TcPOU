@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="FB_ArrayExample" Id="{7cf751cb-8f08-4e56-9cfb-04114186b805}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_ArrayExample
+
+VAR
+	test1 : ARRAY[GVL.INDEX_MIN..5] OF INT := [5,8, 9, 6, 7];
+	test2 : ARRAY[1..10] OF INT := [10(8)]; // Will all be initalised with 8
+	answer1, answer2 : DINT;
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[answer1 := M_SumArray(test1);
+answer2 := M_SumArray(test2);]]></ST>
+    </Implementation>
+    <Method Name="M_SumArray" Id="{11ca7274-3aea-480b-9ca4-580c591829db}">
+      <Declaration><![CDATA[METHOD M_SumArray : DINT
+
+VAR_IN_OUT
+	data : ARRAY[*] OF INT;
+END_VAR
+
+VAR
+	i, sum : DINT;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[RETURN ( LEN2(DATA) < 1 );
+
+FOR i := LOWER_BOUND(data, 1) TO UPPER_BOUND(data, 1) DO
+	sum := sum + data[i];
+END_FOR
+
+M_SumArray := sum;
+]]></ST>
+      </Implementation>
+    </Method>
+  </POU>
+</TcPlcObject>

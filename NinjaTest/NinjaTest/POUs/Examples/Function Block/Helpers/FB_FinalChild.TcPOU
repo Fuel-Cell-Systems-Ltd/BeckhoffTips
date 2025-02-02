@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="FB_FinalChild" Id="{fdd746e6-7abb-4b70-a541-662e56b9eaed}" SpecialFunc="None">
+    <Declaration><![CDATA[
+// This will fail as FB_Final is Final and can't be extended
+//FUNCTION_BLOCK FB_FinalChild EXTENDS FB_Final
+
+// This will fail as FB_Final is Final and can't be extended
+ FUNCTION_BLOCK FB_FinalChild
+
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+  </POU>
+</TcPlcObject>

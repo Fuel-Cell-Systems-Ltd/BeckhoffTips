@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <Itf Name="I_Device" Id="{558266e3-a46e-45ac-9221-c39d7967d84c}">
+    <Declaration><![CDATA[INTERFACE I_Device
+]]></Declaration>
+    <Property Name="name" Id="{3264fdf2-c49e-44e5-905e-c4cb9e193020}">
+      <Declaration><![CDATA[PROPERTY name : STRING]]></Declaration>
+      <Get Name="Get" Id="{8036668f-9561-4dac-b53c-6de5e709244a}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+      <Set Name="Set" Id="{fe4e7028-4d75-4ff3-93da-9f1bc88a88d5}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Set>
+    </Property>
+  </Itf>
+</TcPlcObject>

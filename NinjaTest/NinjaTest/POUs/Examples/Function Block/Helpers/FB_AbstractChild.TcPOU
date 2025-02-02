@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="FB_AbstractChild" Id="{fca5e974-7120-4707-865c-037c45120a8f}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_AbstractChild EXTENDS FB_Abstract
+VAR_INPUT
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Method Name="M_Init" Id="{ef0cb9a8-dc0b-43c8-929e-629171d6e113}">
+      <Declaration><![CDATA[{warning 'Add method implementation '} //  Auto generated due to child class being Abstract
+METHOD PROTECTED M_Init : BOOL
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[]]></ST>
+      </Implementation>
+    </Method>
+  </POU>
+</TcPlcObject>

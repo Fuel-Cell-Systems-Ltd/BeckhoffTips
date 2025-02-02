@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="FB_SubRangeExample" Id="{b5b4340f-13fa-43ba-ad47-060314abe4c7}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_SubRangeExample
+
+VAR
+	// Sub range
+	test1 : INT(1..2);
+
+	test2 : INT(GVL.INDEX_MIN..GVL.INDEX_MAX);
+	test3 : INT := 15;
+END_VAR
+
+// Could be useful for setting up index for for loops
+
+// Can be used with Alias to create parameters i.e. we could have a ALIAS of mARaw which contains UINT(4000...20000) this way we know we will only get the mA and not outside ranges]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[test1 := 2;
+// test1 := 4;// Will result in compile error as it is out of range
+
+test2 := test3; // Without implicit checks it will take the value of test3, with implicit checks it will take the max range.]]></ST>
+    </Implementation>
+  </POU>
+</TcPlcObject>

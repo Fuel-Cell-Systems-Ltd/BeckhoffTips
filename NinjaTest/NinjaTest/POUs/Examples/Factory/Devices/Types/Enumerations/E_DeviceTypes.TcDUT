@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <DUT Name="E_DeviceTypes" Id="{6570c467-7a59-42fd-8e26-f4e3aff3b598}">
+    <Declaration><![CDATA[{attribute 'qualified_only'}
+{attribute 'strict'}
+{attribute 'to_string'}
+TYPE E_DeviceTypes :
+(
+	PressureTransducer := 0,
+	TemperatureTransducer,
+	Solonoid
+);
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

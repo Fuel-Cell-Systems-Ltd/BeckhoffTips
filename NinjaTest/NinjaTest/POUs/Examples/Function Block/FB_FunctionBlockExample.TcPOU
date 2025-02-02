@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="FB_FunctionBlockExample" Id="{243749eb-6231-408b-bbc4-0f7830a8d6a2}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_FunctionBlockExample
+
+VAR
+//	abstractExaple : FB_Abstract;  				// Compile error as this FB is abract class
+	abstractChildExaple : FB_AbstractChild;
+	finalExaple : FB_Final;
+	finalChildExaple : FB_FinalChild;
+	
+	instantVariables : FB_InstanceVariables;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[// abstractExaple();
+
+abstractChildExaple();
+
+finalExaple();
+
+finalChildExaple();
+
+instantVariables();]]></ST>
+    </Implementation>
+  </POU>
+</TcPlcObject>

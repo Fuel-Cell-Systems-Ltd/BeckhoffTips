@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="FB_InstanceVariables" Id="{674d412b-7505-49bb-99f4-82afc2d188be}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_InstanceVariables
+
+VAR
+	test1, test2 : INT;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[// This stays the same as the variable which we increment is reset on each call as its a var
+test1 := M_AddLocal();
+
+// This increases as the variable which we increment is added to the FB memory and is keep each cycle as its a var_inst
+test2 := M_AddInst();]]></ST>
+    </Implementation>
+    <Method Name="M_AddInst" Id="{4e7dcfe1-1a73-439d-ac61-d87b8b66a59f}">
+      <Declaration><![CDATA[METHOD M_AddInst : INT
+
+VAR_INST
+	current : INT;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[current := current + 1;
+
+M_AddInst := current;
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_AddLocal" Id="{1d602dc7-ea3b-4ef8-bdb4-da85fb83afb8}">
+      <Declaration><![CDATA[METHOD M_AddLocal : INT
+
+VAR
+	current : INT;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[current := current + 1;
+
+M_AddLocal := current;
+]]></ST>
+      </Implementation>
+    </Method>
+  </POU>
+</TcPlcObject>

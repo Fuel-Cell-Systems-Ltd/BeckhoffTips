@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="FB_TemperatureTransducer" Id="{a52bb526-6773-426a-a9e8-a82432871c79}" SpecialFunc="None">
+    <Declaration><![CDATA[{attribute 'call_after_init'}
+{attribute 'enable_dynamic_creation'}
+FUNCTION_BLOCK FINAL FB_TemperatureTransducer EXTENDS FB_AbstractDevice IMPLEMENTS I_Device
+
+VAR
+	_processRef : REFERENCE TO REAL;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Method Name="FB_Init" Id="{796a77b1-e8a7-4829-8f08-5b3760e4d54e}">
+      <Declaration><![CDATA[//FB_Init is always available implicitly and it is used primarily for initialization.
+//The return value is not evaluated. For a specific influence, you can also declare the
+//methods explicitly and provide additional code there with the standard initialization
+//code. You can evaluate the return value.
+METHOD FB_Init: BOOL
+VAR_INPUT
+    bInitRetains: BOOL; // TRUE: the retain variables are initialized (reset warm / reset cold)
+    bInCopyCode: BOOL;  // TRUE: the instance will be copied to the copy code afterward (online change)   
+	processRef : REFERENCE TO REAL;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[_processRef REF= processRef;]]></ST>
+      </Implementation>
+    </Method>
+  </POU>
+</TcPlcObject>

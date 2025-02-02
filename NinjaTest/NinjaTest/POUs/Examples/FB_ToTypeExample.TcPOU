@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="FB_ToTypeExample" Id="{4ff74655-8690-4e79-b22d-f7839c0a9f76}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_ToTypeExample
+
+VAR
+	// To_type
+	test1 : UDINT := 5;
+	result1 : SINT;
+
+	test2 : BOOL := TRUE;	
+	result2a : STRING;
+	result2b : INT;
+END_VAR
+
+// Note yo udo not need to specif the from conition in a explicit conversion i.e. UDINT_TO_INT(5) can be wrriten as TO_INT(5).
+// Form that the conversion takes depends on what you are convering from i.e. TO_STRING(TRUE) = "TRUE" where as TO_INT(TRUE) = 1.]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[// TO_(Type)
+result1 := TO_SINT(test1); // Change to > 255 and see what reult 1 behaves
+
+result2a := TO_STRING(test2);
+result2b := TO_INT(test2);]]></ST>
+    </Implementation>
+  </POU>
+</TcPlcObject>

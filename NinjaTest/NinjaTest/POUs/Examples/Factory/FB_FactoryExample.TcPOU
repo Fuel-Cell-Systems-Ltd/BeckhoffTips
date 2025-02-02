@@ -1,0 +1,113 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="FB_FactoryExample" Id="{4d127d16-5654-4518-89be-849a985e2274}" SpecialFunc="None">
+    <Declaration><![CDATA[{attribute 'call_after_init'}
+FUNCTION_BLOCK FB_FactoryExample
+
+VAR
+	Initialized : BOOL;
+
+	testI : ARRAY[1..NO_OF_DEVICES] OF I_Device;
+
+	{attribute 'hide'} 
+	testPtr : ARRAY[1..NO_OF_DEVICES] OF POINTER TO FB_AbstractDevice;
+END_VAR
+
+VAR CONSTANT
+	NO_OF_DEVICES : A_Devices := 3;
+END_VAR
+
+// I would imagine one fo each function blcok for each type of devices similar to HyQube V3 , were we have a interface for each type.]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Method Name="FB_Exit" Id="{f514ee18-d534-489d-9745-67494a520365}">
+      <Declaration><![CDATA[//FB_Exit must be implemented explicitly. If there is an implementation, then the
+//method is called before the controller removes the code of the function block instance
+//(implicit call). The return value is not evaluated.
+METHOD FB_Exit: BOOL
+VAR_INPUT
+    bInCopyCode: BOOL;  // TRUE: the exit method is called in order to leave the instance which will be copied afterwards (online change).  
+END_VAR
+
+VAR
+	i : A_Devices;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// Add in check for to ensure it is dynamic type before deletion.
+FOR i := 1 TO NO_OF_DEVICES DO
+	IF testPtr[i] <> 0 THEN
+		__DELETE(testPtr[i]);	
+	END_IF
+END_FOR
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Init" Id="{2b0e0b2c-dbfa-465b-98ad-bf240a830d14}">
+      <Declaration><![CDATA[{attribute 'call_after_init'}
+METHOD M_Init : BOOL
+
+VAR
+	i : int;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// Dynamically Create blocks and assign 
+i := 1;
+IF testPtr[i] = 0 THEN
+	testPtr[i] := F_DeviceFactory(device := E_DeviceTypes.PressureTransducer, realRef := PRG_Alt.PT);	
+	testI[i] := testPtr[i]^;
+	testI[i].name := 'PT-01';	
+END_IF
+
+i := 2;
+IF testPtr[i] = 0 THEN
+	testPtr[i] := F_DeviceFactory(device := E_DeviceTypes.TemperatureTransducer, realRef := PRG_Alt.TT);
+	testI[i] := testPtr[i]^;
+	testI[i].name := 'TT-01';
+END_IF
+
+i := 3;
+IF testPtr[i] = 0 THEN
+	testPtr[i ] := F_DeviceFactory(device := E_DeviceTypes.Solonoid, boolRef := PRG_Alt.SV);
+	testI[i] := testPtr[i]^;
+	testI[i].name := 'SV-01';
+END_IF
+
+Initialized := TRUE;]]></ST>
+      </Implementation>
+    </Method>
+    <Property Name="PT01" Id="{9846daa1-9219-4dad-9175-41442ee20ff7}">
+      <Declaration><![CDATA[PROPERTY PT01 : I_Device]]></Declaration>
+      <Get Name="Get" Id="{4dfeeea9-b81f-46c9-b118-54cadde45c70}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[PT01 := testI[1];]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="SV01" Id="{d5b0e053-91e6-4995-84e2-756270dca90a}">
+      <Declaration><![CDATA[PROPERTY SV01 : I_Device]]></Declaration>
+      <Get Name="Get" Id="{b029a011-8e27-4820-91df-71126adfb3e4}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[SV01 := testI[3];]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="TT01" Id="{ad56c0eb-fdf7-4a61-9bca-bb9aa4917f4c}">
+      <Declaration><![CDATA[PROPERTY TT01 : I_Device]]></Declaration>
+      <Get Name="Get" Id="{9ced0f7a-ad92-4af4-99dc-370f4a3edfa1}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[TT01 := testI[2];]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+  </POU>
+</TcPlcObject>

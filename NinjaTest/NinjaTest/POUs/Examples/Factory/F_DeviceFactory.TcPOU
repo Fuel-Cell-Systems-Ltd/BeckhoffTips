@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="F_DeviceFactory" Id="{022b5054-5d83-4530-9ee5-12b8071e0d47}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION F_DeviceFactory : POINTER TO FB_AbstractDevice
+
+VAR_INPUT
+	device : E_DeviceTypes;
+	boolRef : REFERENCE TO BOOL REF= 0;
+	intRef : REFERENCE TO INT REF= 0;
+	realRef : REFERENCE TO REAL REF= 0;
+END_VAR
+
+VAR
+	pressureTransducer : POINTER TO FB_PressureTransducer;
+	temperatureeTransducer : POINTER TO FB_TemperatureTransducer;
+	solonoid : POINTER TO FB_Solonoid;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[CASE device OF
+	E_DeviceTypes.PressureTransducer :
+		RETURN ( NOT __ISVALIDREF(realRef) );
+		pressureTransducer  := __NEW( FB_PressureTransducer(processRef := realRef) );
+		F_DeviceFactory := pressureTransducer;
+	E_DeviceTypes.TemperatureTransducer :
+		RETURN ( NOT __ISVALIDREF(realRef) );
+		temperatureeTransducer  := __NEW( FB_TemperatureTransducer(processRef := realRef) );
+		F_DeviceFactory := temperatureeTransducer;
+	E_DeviceTypes.Solonoid :
+		RETURN ( NOT __ISVALIDREF(boolRef) );
+		solonoid  := __NEW( FB_Solonoid(output  := boolRef) );
+		F_DeviceFactory := solonoid;
+END_CASE
+	
+	]]></ST>
+    </Implementation>
+  </POU>
+</TcPlcObject>

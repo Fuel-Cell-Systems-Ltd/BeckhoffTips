@@ -1,0 +1,83 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="FB_JumpAndReturnExample" Id="{c6f161e6-183d-4f9e-88c4-08ef9c8dbf9f}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_JumpAndReturnExample
+
+VAR
+	jump1, jump2, return1, return2: BOOL;
+	pointerValid, referenceValid : BOOL := TRUE;
+	ptr : POINTER TO STRING;
+	ref : REFERENCE TO STRING;
+	msg : STRING := 'This is a msg';
+	jmpResult : STRING;
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[IF pointerValid THEN
+	ptr := ADR(msg); 
+ELSE
+	ptr := 0;// Manually zero out the pointer
+END_IF
+
+IF referenceValid THEN
+	ref REF= msg;
+ELSE
+	ref REF= 0; // Invlaid type for this reference
+END_IF
+	
+M_TestMethod(jump1 := jump1, jump2 := jump2, return1 := return1, return2 := return2, ptr := ptr, ref := ref, result => jmpResult);]]></ST>
+    </Implementation>
+    <Method Name="M_TestMethod" Id="{d44515cf-d68d-465a-9a98-10dc9d86da3e}">
+      <Declaration><![CDATA[METHOD M_TestMethod
+
+VAR_INPUT
+	jump1, jump2 : BOOL;
+	return1, return2 : BOOL;
+	ref : REFERENCE TO STRING;
+	ptr : POINTER TO STRING;
+END_VAR
+
+VAR_OUTPUT
+	result : STRING;
+END_VAR
+
+// This can be useful if you want a override which skips some of the code, 
+// i.e. you have code which does a action then monitors the result, you may want a override which skips the control if disabled but still monitors
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// Return via a if statement
+IF return1 THEN
+	result := 'I returned early due to return1';
+	RETURN;
+END_IF
+
+// Conditional Returns
+result := 'I returned early due to return2';
+RETURN ( return2 );
+
+result := 'I returned early due to a invalid reference';
+RETURN ( NOT __ISVALIDREF(ref) );
+
+result := 'I returned early due to a invalid pointer';
+RETURN ( ptr = 0 );
+
+// Jump via a if statement
+IF jump1 THEN
+	JMP j1;
+END_IF
+
+// Jump via a condition jump
+JMP ( jump2 ) j2;
+
+// Default Answer
+result := 'I have not jumped';
+RETURN;
+
+j1: result := 'I have jumped using jump 1';	
+RETURN;
+
+j2: result := 'I have jumped using jump 2';	
+RETURN;]]></ST>
+      </Implementation>
+    </Method>
+  </POU>
+</TcPlcObject>

@@ -1,0 +1,78 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="FB_DynamicMemoryExample" Id="{1381afa1-a0c1-40bb-aeb0-5f9ecaa62834}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_DynamicMemoryExample
+
+VAR
+	initalize : BOOL;
+		
+	test : POINTER TO FB_Test;
+	test2 : REFERENCE TO FB_Test;
+	test3 : I_Test;
+	
+	test4 : FB_Test(processRef := PRG_Alt.test) := (name := 'test04');
+	
+	intialised : BOOL;
+	initTrig : R_TRIG;
+END_VAR
+
+// This is a example of how you can use JMP and return, should create a init and cyclic logic methods and use the initialised to call the different code. 
+// But could be useful for functions which do not support methods, or simple overrides [i.e. HMI or enable overrides]]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[initTrig(CLK := initalize);
+
+JMP ( NOT intialised ) init;
+JMP ( intialised ) cycle;
+
+init: // Initalise
+RETURN ( NOT initTrig.Q ); // Do nothing unless told to
+
+test := __NEW( FB_Test(processRef := PRG_Alt.test) );
+test^.name :='test';
+IF test <> 0 THEN
+	test2 REF= test^;
+	test3 := test^;
+END_IF
+intialised := TRUE;	
+RETURN;
+
+cycle: // After Initalise
+RETURN ( test = 0 );
+test^(); // Deferance pointer and call directly [use only as needed]
+
+RETURN ( NOT __ISVALIDREF(test2) );
+test2();  // Call via the reference [better option]
+
+// Continue code ...
+test3.M_Cyclic(); // Call via a interfadce [prefered option, no check required]
+
+test4();
+RETURN;]]></ST>
+    </Implementation>
+    <Method Name="FB_Exit" Id="{3e161f7a-8c22-4dda-93d8-2781191ce752}">
+      <Declaration><![CDATA[//FB_Exit must be implemented explicitly. If there is an implementation, then the
+//method is called before the controller removes the code of the function block instance
+//(implicit call). The return value is not evaluated.
+METHOD FB_Exit: BOOL
+VAR_INPUT
+    bInCopyCode: BOOL;  // TRUE: the exit method is called in order to leave the instance which will be copied afterwards (online change).  
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[__delete(test);]]></ST>
+      </Implementation>
+    </Method>
+    <Property Name="pTest" Id="{81154373-961d-412c-8b43-f6a2ec9e4bca}">
+      <Declaration><![CDATA[PROPERTY pTest : REFERENCE TO FB_Test;]]></Declaration>
+      <Get Name="Get" Id="{3372ee4c-369c-41e3-8dc7-daf317b791dc}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[IF test <> 0 THEN
+	pTest REF= test^;
+END_IF]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+  </POU>
+</TcPlcObject>

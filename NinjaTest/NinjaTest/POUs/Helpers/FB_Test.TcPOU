@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="FB_Test" Id="{2bce71c1-653f-4551-93b6-f2cecb285b5c}" SpecialFunc="None">
+    <Declaration><![CDATA[{attribute 'enable_dynamic_creation'}
+FUNCTION_BLOCK FB_Test IMPLEMENTS I_Test
+
+VAR
+	_processRef : REFERENCE TO REAL;
+	_name : STRING;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Method Name="FB_Init" Id="{160c448b-5c71-4670-b403-451e1e1e0890}">
+      <Declaration><![CDATA[//FB_Init is always available implicitly and it is used primarily for initialization.
+//The return value is not evaluated. For a specific influence, you can also declare the
+//methods explicitly and provide additional code there with the standard initialization
+//code. You can evaluate the return value.
+METHOD FB_Init: BOOL
+VAR_INPUT
+    bInitRetains: BOOL; // TRUE: the retain variables are initialized (reset warm / reset cold)
+    bInCopyCode: BOOL;  // TRUE: the instance will be copied to the copy code afterward (online change)   
+	processRef : REFERENCE TO REAL;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[_processRef REF= processRef;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Cyclic" Id="{9e372763-7e00-4d6b-9cea-b12331131f9d}">
+      <Declaration><![CDATA[METHOD M_Cyclic
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[]]></ST>
+      </Implementation>
+    </Method>
+    <Property Name="name" Id="{caea7c56-734a-4293-9af8-7bf7ba7c3cf9}">
+      <Declaration><![CDATA[PROPERTY name : STRING]]></Declaration>
+      <Get Name="Get" Id="{1e897102-5bbe-40c2-a6f7-c437a2d84838}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[name : _name;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{f24c4290-abad-4af2-9da2-247c0a463727}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[_name := name;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+  </POU>
+</TcPlcObject>

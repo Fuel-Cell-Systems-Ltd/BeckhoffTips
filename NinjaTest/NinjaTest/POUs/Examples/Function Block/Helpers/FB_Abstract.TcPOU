@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="FB_Abstract" Id="{27e5f71f-24af-4280-8f09-ea2bb114ab87}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK ABSTRACT FB_Abstract
+
+
+// This Function Block can't be instaniated but has to be extended.]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Method Name="M_Cycle" Id="{3b8b170d-8710-47e0-a7fb-acf281279ebc}">
+      <Declaration><![CDATA[METHOD PROTECTED M_Cycle : BOOL
+VAR_INPUT
+END_VAR
+
+// This Method does not have to be incorporated into child class]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="M_Init" Id="{15d79c0a-047b-4eb5-b25d-e0e45f70083a}">
+      <Declaration><![CDATA[METHOD PROTECTED ABSTRACT M_Init : BOOL
+VAR_INPUT
+END_VAR
+
+
+// This Method has to be incorporated into child class]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[]]></ST>
+      </Implementation>
+    </Method>
+  </POU>
+</TcPlcObject>

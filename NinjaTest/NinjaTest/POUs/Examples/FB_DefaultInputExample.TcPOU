@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="FB_DefaultInputExample" Id="{73ec9b5b-fe84-46f8-9b10-6fe69d3f4155}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_DefaultInputExample
+
+VAR	
+	// Default values of VAR_INPUT
+	test, result1, result2 : INT;
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[// Fully defined input
+result1 := M_Addition(input1 := test, input2 := 20);
+
+// On required field declared, input2 has a default value of 25
+result2 := M_Addition(input1 := test);]]></ST>
+    </Implementation>
+    <Method Name="M_Addition" Id="{cd3e7499-b676-47ad-9088-dd8fd204cb7b}">
+      <Declaration><![CDATA[METHOD M_Addition :INT
+
+VAR_INPUT
+	input1 : INT;
+	input2 : INT := 25;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[M_Addition := input1 + input2;]]></ST>
+      </Implementation>
+    </Method>
+  </POU>
+</TcPlcObject>
